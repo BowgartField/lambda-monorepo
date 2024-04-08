@@ -3,9 +3,9 @@ const fs = require('fs');
 const YAML = require('yaml');
 const shell = require('shelljs');
 
-const deployAll = ({ functions, yml, zipParams, alias, layer }) => {
+const deployAll = ({ fnc, yml, zipParams, alias, layer }) => {
   let success = true;
-  const { code } = shell.exec(`sh ./deploy.sh "${functions}" "packages/${functions}" "${zipParams}" "${alias}" "${layer}"`);
+  const { code } = shell.exec(`sh ./deploy.sh "${fnc}" "${yml[key][0].split('*')[0]}" "${zipParams}" "${alias}" "${layer}"`);
   if (code) {
     console.error(`Deployment of ${key} failed!`);
     success = false;

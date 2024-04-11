@@ -30,6 +30,7 @@ const run = async () => {
     const success = deployAll({ lambdaFunctions, yml, zipParams, alias, layer });
     if (!success) throw new Error('An error occured. At least one Lambda could not be deployed.');
   } catch (error) {
+    console.error(error);
     core.setFailed(error.message);
   }
 };

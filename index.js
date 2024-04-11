@@ -5,6 +5,8 @@ const shell = require('shelljs');
 
 const deployAll = ({ lambdaFunctions, yml, zipParams, alias, layer }) => {
   let success = true;
+  console.log(lambdaFunctions)
+  console.log(Object.entries(lambdaFunctions))
   for (const [key, value] of Object.entries(lambdaFunctions)) {
     if (value === 'true') {
       console.log(yml[key][0].split('*')[0])

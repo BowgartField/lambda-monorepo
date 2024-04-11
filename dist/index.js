@@ -9,13 +9,10 @@ const fs = __nccwpck_require__(7147);
 const YAML = __nccwpck_require__(4083);
 const shell = __nccwpck_require__(3516);
 
-const deployAll = ({ lambdaFunctions, yml, zipParams, alias, layer }) => {
+const deployAll = ({ functions, yml, zipParams, alias, layer }) => {
   let success = true;
-  console.log(lambdaFunctions)
-  console.log(Object.entries(lambdaFunctions))
-  for (const [key, value] of Object.entries(lambdaFunctions)) {
+  for (const [key, value] of Object.entries(functions)) {
     if (value === 'true') {
-      console.log(yml[key][0].split('*')[0])
       const { code } = shell.exec(`sh ./deploy.sh "${key}" "${yml[key][0].split('*')[0]}" "${zipParams}" "${alias}" "${layer}"`);
       if (code) {
         console.error(`Deployment of ${key} failed!`);
@@ -30,15 +27,17 @@ const deployAll = ({ lambdaFunctions, yml, zipParams, alias, layer }) => {
 
 const run = async () => {
   try {
-    const lambdaFunctions = core.getInput('lambda-functions');
+    const lambdaFunctions = JSON.parse(core.getInput('lambda-functions') ?? {});
     const zipParams = core.getInput('zip-params');
     const alias = core.getInput('alias-name');
     const layer = core.getInput('layer-name');
+
+    const functions = JSON.parse(lambdaFunctions);
     const filterFilePath = core.getInput('filter-file-path') ?? './.github/filters.yml';
     const file = fs.readFileSync(filterFilePath, 'utf8');
     const yml = YAML.parse(file);
 
-    const success = deployAll({ lambdaFunctions, yml, zipParams, alias, layer });
+    const success = deployAll({ functions, yml, zipParams, alias, layer });
     if (!success) throw new Error('An error occured. At least one Lambda could not be deployed.');
   } catch (error) {
     console.error(error);

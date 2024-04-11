@@ -9,9 +9,9 @@ const fs = __nccwpck_require__(7147);
 const YAML = __nccwpck_require__(4083);
 const shell = __nccwpck_require__(3516);
 
-const deployAll = ({ functions, yml, zipParams, alias, layer }) => {
+const deployAll = ({ lambdaFunctions, yml, zipParams, alias, layer }) => {
   let success = true;
-  for (const [key, value] of Object.entries(functions)) {
+  for (const [key, value] of Object.entries(lambdaFunctions)) {
     if (value === 'true') {
       const { code } = shell.exec(`sh ./deploy.sh "${key}" "${yml[key][0].split('*')[0]}" "${zipParams}" "${alias}" "${layer}"`);
       if (code) {

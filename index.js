@@ -3,9 +3,9 @@ const fs = require('fs');
 const YAML = require('yaml');
 const shell = require('shelljs');
 
-const deployAll = ({ functions, yml, zipParams, alias, layer }) => {
+const deployAll = ({ lambdaFunctions, yml, zipParams, alias, layer }) => {
   let success = true;
-  for (const [key, value] of Object.entries(functions)) {
+  for (const [key, value] of Object.entries(lambdaFunctions)) {
     if (value === 'true') {
       const { code } = shell.exec(`sh ./deploy.sh "${key}" "${yml[key][0].split('*')[0]}" "${zipParams}" "${alias}" "${layer}"`);
       if (code) {

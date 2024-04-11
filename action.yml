@@ -15,6 +15,10 @@ inputs:
     description: 'Pointer to a specific Lambda function version'
     default: ''
     required: false
+  filter-file-path:
+    description: 'Filter file path'
+    default: ''
+    required: false
   layer-name:
     description: 'Additional code and content'
     default: ''

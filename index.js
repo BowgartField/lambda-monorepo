@@ -7,11 +7,14 @@ const deployAll = ({ lambdaFunctions, yml, zipParams, alias, layer }) => {
   let success = true;
   for (const [key, value] of Object.entries(lambdaFunctions)) {
     if (value === 'true') {
+      console.log(yml[key][0].split('*')[0])
       const { code } = shell.exec(`sh ./deploy.sh "${key}" "${yml[key][0].split('*')[0]}" "${zipParams}" "${alias}" "${layer}"`);
       if (code) {
         console.error(`Deployment of ${key} failed!`);
         success = false;
       }
+    }else{
+      console.log(`Skipping deployment of ${key}`);
     }
   }
   return success;

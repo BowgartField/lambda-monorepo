@@ -21,12 +21,13 @@ const deployAll = ({ functions, yml, zipParams, alias, layer }) => {
 
 const run = async () => {
   try {
-    const lambdaFunctions = JSON.parse(core.getInput('lambda-functions') ?? {});
+    const lambdaFunctions = core.getInput('lambda-functions');
     const zipParams = core.getInput('zip-params');
     const alias = core.getInput('alias-name');
     const layer = core.getInput('layer-name');
 
     const functions = JSON.parse(lambdaFunctions);
+    console.log(functions)
     const filterFilePath = core.getInput('filter-file-path') ?? './.github/filters.yml';
     const file = fs.readFileSync(filterFilePath, 'utf8');
     const yml = YAML.parse(file);
